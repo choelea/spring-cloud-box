@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>tech.icoding</groupId>
+		<artifactId>spring-cloud-box</artifactId>
+		<version>3.2.0</version>
+	</parent>
+
+	<groupId>tech.icoding</groupId>
+	<artifactId>spring-cloud-box-components</artifactId>
+	<packaging>pom</packaging>
+
+	<modules>
+		<module>spring-cloud-box-tools</module>
+		<module>spring-cloud-box-swagger</module>
+		<module>spring-cloud-box-lock</module>
+		<module>spring-cloud-box-xxl-job</module>
+		<module>spring-cloud-box-mybatis</module>
+		<module>spring-cloud-box-security</module>
+		<module>spring-cloud-box-log</module>
+		<module>spring-cloud-box-dynamic-datasource</module>
+		<module>spring-cloud-box-iot-platform</module>
+		<module>secret-request-aop</module>
+        <module>spring-cloud-box-oss</module>
+        <module>spring-cloud-box-core</module>
+		<module>spring-cloud-box-code-generator</module>
+	</modules>
+
+</project>

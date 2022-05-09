@@ -77,7 +77,7 @@ public class FacadeClassBuilder extends  AbstractClassBuilder{
 //    final PageRequest pageRequest = PageRequest.of(page, size);
 //    final Page<CourseEntity> entityPage = courseService.find(pageRequest);
 //
-//    final List<CourseData> dataList = entityPage.get().map(courseEntity -> {
+//    final List<CourseData> dataList = entityPage.getContent().stream().map(courseEntity -> {
 //        return convert(courseEntity);
 //    }).collect(Collectors.toList());
 
@@ -94,7 +94,7 @@ public class FacadeClassBuilder extends  AbstractClassBuilder{
                 .addParameter(int.class, "page").addParameter(int.class, "size")
                 .addStatement("final $T pageRequest = $T.of(page, size)", PageRequest.class, PageRequest.class)
                 .addStatement("final $T entityPage = $N.find(pageRequest)", entityPageType, getVariableName(serviceClass))
-                .addStatement("final $T dataList = entityPage.get().map(entity -> {\n" +
+                .addStatement("final $T dataList = entityPage.getContent().stream().map(entity -> {\n" +
                         "        return convert(entity);\n" +
                         "    }).collect($T.toList())", dataListType, Collectors.class)
                 .addStatement("final $T dataPage = new $T(dataList, entityPage.getPageable(), entityPage.getTotalElements())", dataPageImplType, dataPageImplType)

@@ -63,7 +63,7 @@ public class SimpleGenerator {
         generate(srcFolder, dataPackageName, dateTypeSpec);
 
         // Generate form Class
-        final TypeSpec formTypeSpec = dataClassBuilder.buildTypeSpec(entityClass, bizName + formClassSuffix);
+        final TypeSpec formTypeSpec = formClassBuilder.buildTypeSpec(entityClass, bizName + formClassSuffix);
         final String formPackageName = parentPackageName + "." + formClassSuffix.toLowerCase();
         generate(srcFolder, formPackageName, formTypeSpec);
 

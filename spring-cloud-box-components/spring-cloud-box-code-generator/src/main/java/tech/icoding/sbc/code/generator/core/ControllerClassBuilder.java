@@ -83,8 +83,11 @@ public class ControllerClassBuilder extends  AbstractClassBuilder{
                 .addAnnotation(GetMapping.class)
                 .returns(dataPageType)
 //                .addParameter(ParameterSpec.builder(int.class).build())
-                .addParameter(int.class, "page").addParameter(int.class, "size")
-                .addStatement("return $N.find(page, size)", getVariableName(facadeClass))
+                .addParameter(ParameterSpec.builder(int.class, "pageNumber")
+                            .addAnnotation(AnnotationSpec.builder(RequestParam.class).addMember("defaultValue", "$S",1).build()).build())
+                .addParameter(ParameterSpec.builder(int.class, "pageSize")
+                        .addAnnotation(AnnotationSpec.builder(RequestParam.class).addMember("defaultValue", "$S",10).build()).build())
+                .addStatement("return $N.find(pageNumber-1, pageSize)", getVariableName(facadeClass))
                 .addJavadoc("Find pageable data")
                 .build();
     }

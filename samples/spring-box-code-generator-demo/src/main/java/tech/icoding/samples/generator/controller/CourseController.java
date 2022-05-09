@@ -1,15 +1,7 @@
 package tech.icoding.samples.generator.controller;
 
-import java.lang.Long;
 import org.springframework.data.domain.Page;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import tech.icoding.samples.generator.data.CourseData;
 import tech.icoding.samples.generator.facade.CourseFacade;
 import tech.icoding.samples.generator.form.CourseForm;
@@ -36,8 +28,9 @@ public class CourseController {
    * Find pageable data
    */
   @GetMapping
-  public Page<CourseData> find(int page, int size) {
-    return courseFacade.find(page, size);
+  public Page<CourseData> find(@RequestParam(defaultValue = "1") int pageNumber,
+      @RequestParam(defaultValue = "10") int pageSize) {
+    return courseFacade.find(pageNumber-1, pageSize);
   }
 
   /**

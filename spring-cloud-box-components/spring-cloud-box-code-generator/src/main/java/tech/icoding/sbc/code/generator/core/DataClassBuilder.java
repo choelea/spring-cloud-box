@@ -19,11 +19,12 @@ public class DataClassBuilder extends AbstractClassBuilder{
 
     public TypeSpec buildTypeSpec(Class entityClass, String targetClassName) {
         final Type firstGenericParameter = GeneratorUtils.getFirstGenericParameter(entityClass);
-
+        final ParameterizedTypeName parameterizedTypeName = ParameterizedTypeName.get(ClassName.get(BaseData.class),
+                ClassName.get(firstGenericParameter));
         Class sourceClass = entityClass;
         final TypeSpec.Builder builder = TypeSpec.classBuilder(targetClassName)
                 .addModifiers(Modifier.PUBLIC)
-                .addAnnotation(Data.class);
+                .addAnnotation(Data.class).superclass(parameterizedTypeName);
 
         final Field[] declaredFields = sourceClass.getDeclaredFields();
 

@@ -36,7 +36,7 @@ public class CourseFacade {
   public Page<CourseData> find(int page, int size) {
     final PageRequest pageRequest = PageRequest.of(page, size);
     final Page<Course> entityPage = courseService.find(pageRequest);
-    final List<CourseData> dataList = entityPage.get().map(entity -> {
+    final List<CourseData> dataList = entityPage.getContent().stream().map(entity -> {
                 return convert(entity);
             }).collect(Collectors.toList());
     final PageImpl<CourseData> dataPage = new PageImpl<CourseData>(dataList, entityPage.getPageable(), entityPage.getTotalElements());

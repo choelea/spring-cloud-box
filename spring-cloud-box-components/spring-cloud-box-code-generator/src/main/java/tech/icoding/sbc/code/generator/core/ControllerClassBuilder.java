@@ -4,6 +4,7 @@ import com.squareup.javapoet.*;
 import org.atteo.evo.inflector.English;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
+import tech.icoding.scb.core.data.PageData;
 
 import javax.lang.model.element.Modifier;
 
@@ -67,17 +68,22 @@ public class ControllerClassBuilder extends  AbstractClassBuilder{
                 .build();
     }
 
-//    final PageRequest pageRequest = PageRequest.of(page, size);
-//    final Page<CourseEntity> entityPage = courseService.find(pageRequest);
-//
-//    final List<CourseData> dataList = entityPage.get().map(courseEntity -> {
-//        return convert(courseEntity);
-//    }).collect(Collectors.toList());
-
-
+    /**
+     * Build find method like below:
+     * <pre>
+     *     {@code
+         *     @GetMapping
+         *     public PageData<CourseData> find(@RequestParam(defaultValue = "1") int pageNumber,
+         *                                      @RequestParam(defaultValue = "10") int pageSize) {
+         *         final Page<CourseData> courseDataPage = courseFacade.find(pageNumber - 1, pageSize);
+         *         return new PageData<>(courseDataPage);
+         *     }
+     *     }
+     * </pre>
+     */
     private MethodSpec buildFindMethod(Class entityClass, Class dataClass, Class facadeClass){
 
-        final ParameterizedTypeName dataPageType = ParameterizedTypeName.get(Page.class, dataClass);
+        final ParameterizedTypeName dataPageType = ParameterizedTypeName.get(PageData.class, dataClass);
         return MethodSpec.methodBuilder("find")
                 .addModifiers(Modifier.PUBLIC)
                 .addAnnotation(GetMapping.class)
@@ -87,7 +93,8 @@ public class ControllerClassBuilder extends  AbstractClassBuilder{
                             .addAnnotation(AnnotationSpec.builder(RequestParam.class).addMember("defaultValue", "$S",1).build()).build())
                 .addParameter(ParameterSpec.builder(int.class, "pageSize")
                         .addAnnotation(AnnotationSpec.builder(RequestParam.class).addMember("defaultValue", "$S",10).build()).build())
-                .addStatement("return $N.find(pageNumber-1, pageSize)", getVariableName(facadeClass))
+                .addStatement("final $T<$T> dataPage = $N.find(pageNumber-1, pageSize)", Page.class, dataClass, getVariableName(facadeClass))
+                .addStatement("return new $T<>(dataPage)", PageData.class)
                 .addJavadoc("Find pageable data")
                 .build();
     }

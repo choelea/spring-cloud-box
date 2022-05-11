@@ -15,6 +15,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import tech.icoding.samples.generator.data.CourseData;
 import tech.icoding.samples.generator.form.CourseForm;
 import tech.icoding.samples.generator.repository.CourseRepository;
+import tech.icoding.scb.core.data.PageData;
 
 
 /**
@@ -50,7 +51,7 @@ public class CourseTest extends AbstractMvcTest{
         Assert.assertEquals(courseForm.getName(), courseData.getName());
 
         // 列表
-        Page<CourseData> courseDataPage = find("/courses", CourseData.class, emptyMap());
+        PageData<CourseData> courseDataPage = find("/courses", CourseData.class, emptyMap());
         Assert.assertTrue(!courseDataPage.isEmpty());
 
     }

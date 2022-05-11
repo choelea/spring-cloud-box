@@ -1,28 +1,20 @@
 package tech.icoding.samples.generator;
 
 import com.alibaba.fastjson.JSON;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.MultiValueMap;
+import tech.icoding.scb.core.data.PageData;
 
 import java.io.Serializable;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -84,7 +76,7 @@ public class AbstractMvcTest {
         return objectMapper.readValue(contentAsString, resClass);
     }
 
-    protected <T> Page<T> find(String uri, Class<T> resClass, MultiValueMap<String, String> params) throws Exception {
+    protected <T> PageData<T> find(String uri, Class<T> resClass, MultiValueMap<String, String> params) throws Exception {
         final MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders
                 .get(uri).params(params)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -94,35 +86,11 @@ public class AbstractMvcTest {
 
         String contentAsString = mvcResult.getResponse().getContentAsString(Charset.forName("UTF-8"));
         log.info(contentAsString);
-        return objectMapper.readValue(contentAsString, RestResponsePage.class);
+        return objectMapper.readValue(contentAsString, PageData.class);
     }
 
     protected MultiValueMap<String, String> emptyMap(){
         return CollectionUtils.toMultiValueMap(Collections.EMPTY_MAP);
     }
-    static class RestResponsePage<T> extends PageImpl<T> {
 
-        private static final long serialVersionUID = 3248189030448292002L;
-
-        @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
-        public RestResponsePage(@JsonProperty("content") List<T> content, @JsonProperty("number") int number, @JsonProperty("size") int size,
-                                @JsonProperty("totalElements") Long totalElements, @JsonProperty("pageable") JsonNode pageable, @JsonProperty("last") boolean last,
-                                @JsonProperty("totalPages") int totalPages, @JsonProperty("sort") JsonNode sort, @JsonProperty("first") boolean first,
-                                @JsonProperty("numberOfElements") int numberOfElements) {
-            super(content, PageRequest.of(number, size), totalElements);
-        }
-
-        public RestResponsePage(List<T> content, Pageable pageable, long total) {
-            super(content, pageable, total);
-        }
-
-        public RestResponsePage(List<T> content) {
-            super(content);
-        }
-
-        public RestResponsePage() {
-            super(new ArrayList<T>());
-        }
-
-    }
 }

@@ -3,8 +3,7 @@ package tech.icoding.samples.generator.entity;
 import lombok.Data;
 import tech.icoding.scb.core.entity.BaseEntity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
+import javax.persistence.*;
 
 /**
  * @author : Joe
@@ -13,6 +12,11 @@ import javax.persistence.Entity;
 @Entity
 @Data
 public class Course extends BaseEntity<Long> {
+
+    @Id
+    @Column(length = 20)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(length = 64)
     private String name;

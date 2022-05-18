@@ -23,7 +23,9 @@ public class FormClassBuilder extends AbstractClassBuilder{
         final Field[] declaredFields = entityClass.getDeclaredFields();
 
         for (int i = 0; i < declaredFields.length; i++) {
-            builder.addField(declaredFields[i].getGenericType(),declaredFields[i].getName(), Modifier.PRIVATE);
+            if(!IDENTIFIER_NAME.equals(declaredFields[i].getName())){
+                builder.addField(declaredFields[i].getGenericType(),declaredFields[i].getName(), Modifier.PRIVATE);
+            }
         }
         return builder.build();
     }

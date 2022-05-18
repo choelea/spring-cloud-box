@@ -11,8 +11,8 @@ import java.util.Objects;
  * @date : 2022/4/26
  */
 @Data
-public class BaseData <ID extends Serializable> implements Serializable {
-    protected ID id;
+public abstract class BaseData <ID extends Serializable> implements Serializable {
+    abstract protected ID getId();
 
     /**
      * 创建日期
@@ -29,11 +29,11 @@ public class BaseData <ID extends Serializable> implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         BaseData<?> baseData = (BaseData<?>) o;
-        return id.equals(baseData.id);
+        return getId().equals(baseData.getId());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(getId());
     }
 }

@@ -6,10 +6,10 @@ import lombok.Data;
 import tech.icoding.scb.core.data.BaseData;
 
 @Data
-public class CourseData extends BaseData<Long> {
+public class UserData extends BaseData<Long> {
   private Long id;
 
   private String name;
 
-  private String summary;
+  private String email;
 }

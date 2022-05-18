@@ -12,7 +12,7 @@ import java.lang.annotation.Target;
  */
 @Target(value = {ElementType.METHOD})
 @Retention(value = RetentionPolicy.RUNTIME)
-public @interface Lock4j {
+    public @interface Lock4j {
 
     /**
      * 自定义业务keys

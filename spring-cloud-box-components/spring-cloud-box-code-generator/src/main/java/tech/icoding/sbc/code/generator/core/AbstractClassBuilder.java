@@ -10,7 +10,7 @@ import java.lang.reflect.Type;
  * @date : 2022/4/28
  */
 public abstract class AbstractClassBuilder{
-    protected static final String ARGS_ID="id";
+    protected static final String IDENTIFIER_NAME ="id";
     public Type getIdType(Class entityClass) {
         return GeneratorUtils.getFirstGenericParameter(entityClass);
     }

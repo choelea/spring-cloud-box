@@ -59,10 +59,10 @@ public class ControllerClassBuilder extends  AbstractClassBuilder{
     private MethodSpec buildGetMethod(Class entityClass, Class dataClass, Class facadeClass){
         return MethodSpec.methodBuilder("get")
                 .addModifiers(Modifier.PUBLIC)
-                .addAnnotation(AnnotationSpec.builder(GetMapping.class).addMember("value", "$S","/{"+ARGS_ID+"}").build())
+                .addAnnotation(AnnotationSpec.builder(GetMapping.class).addMember("value", "$S","/{"+ IDENTIFIER_NAME +"}").build())
                 .returns(dataClass)
-                .addParameter(ParameterSpec.builder(getIdType(entityClass),ARGS_ID,Modifier.FINAL ).addAnnotation(PathVariable.class).build())
-                .addStatement("final $T $N = $N.get($N)", dataClass, getVariableName(dataClass),getVariableName(facadeClass), ARGS_ID)
+                .addParameter(ParameterSpec.builder(getIdType(entityClass), IDENTIFIER_NAME,Modifier.FINAL ).addAnnotation(PathVariable.class).build())
+                .addStatement("final $T $N = $N.get($N)", dataClass, getVariableName(dataClass),getVariableName(facadeClass), IDENTIFIER_NAME)
                 .addStatement("return $N", getVariableName(dataClass))
                 .addJavadoc("Get by ID")
                 .build();
@@ -115,11 +115,11 @@ public class ControllerClassBuilder extends  AbstractClassBuilder{
 
         return MethodSpec.methodBuilder("update")
                 .addModifiers(Modifier.PUBLIC)
-                .addAnnotation(AnnotationSpec.builder(PutMapping.class).addMember("value", "$S","/{"+ARGS_ID+"}").build())
+                .addAnnotation(AnnotationSpec.builder(PutMapping.class).addMember("value", "$S","/{"+ IDENTIFIER_NAME +"}").build())
                 .returns(dataClass)
-                .addParameter(ParameterSpec.builder(getIdType(entityClass), ARGS_ID, Modifier.FINAL).addAnnotation(PathVariable.class).build())
+                .addParameter(ParameterSpec.builder(getIdType(entityClass), IDENTIFIER_NAME, Modifier.FINAL).addAnnotation(PathVariable.class).build())
                 .addParameter(ParameterSpec.builder(formClass, getVariableName(formClass),Modifier.FINAL).addAnnotation(RequestBody.class).build())
-                .addStatement("return $N.update($N, $N)", getVariableName(facadeClass),ARGS_ID, getVariableName(formClass))
+                .addStatement("return $N.update($N, $N)", getVariableName(facadeClass), IDENTIFIER_NAME, getVariableName(formClass))
                 .addJavadoc("Create")
                 .build();
     }
@@ -128,10 +128,10 @@ public class ControllerClassBuilder extends  AbstractClassBuilder{
     private MethodSpec buildDeleteMethod(Class entityClass,  Class facadeClass){
         return MethodSpec.methodBuilder("delete")
                 .addModifiers(Modifier.PUBLIC)
-                .addAnnotation(AnnotationSpec.builder(DeleteMapping.class).addMember("value", "$S","/{"+ARGS_ID+"}").build())
+                .addAnnotation(AnnotationSpec.builder(DeleteMapping.class).addMember("value", "$S","/{"+ IDENTIFIER_NAME +"}").build())
                 .returns(void.class)
-                .addParameter(ParameterSpec.builder(getIdType(entityClass), ARGS_ID, Modifier.FINAL).addAnnotation(PathVariable.class).build())
-                .addStatement("$N.delete($N)",getVariableName(facadeClass), ARGS_ID)
+                .addParameter(ParameterSpec.builder(getIdType(entityClass), IDENTIFIER_NAME, Modifier.FINAL).addAnnotation(PathVariable.class).build())
+                .addStatement("$N.delete($N)",getVariableName(facadeClass), IDENTIFIER_NAME)
 //                .addStatement("return $N", getVariableName(dataClass))
                 .addJavadoc("Delete by ID")
                 .build();

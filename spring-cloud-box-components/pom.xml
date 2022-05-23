@@ -15,7 +15,6 @@
 
 	<modules>
 		<module>spring-cloud-box-tools</module>
-		<module>spring-cloud-box-swagger</module>
 		<module>spring-cloud-box-lock</module>
 		<module>spring-cloud-box-xxl-job</module>
 		<module>spring-cloud-box-mybatis</module>

@@ -82,11 +82,6 @@
             </dependency>
             <dependency>
                 <groupId>tech.icoding</groupId>
-                <artifactId>spring-cloud-box-swagger</artifactId>
-                <version>${scb.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>tech.icoding</groupId>
                 <artifactId>spring-cloud-box-tools</artifactId>
                 <version>${scb.version}</version>
             </dependency>

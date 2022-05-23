@@ -24,6 +24,7 @@ public class SimpleGenerator {
     private String serviceClassSuffix;
     private String facadeClassSuffix;
     private String controllerClassSuffix;
+    private boolean overwrite = false;
 
     private final DataClassBuilder dataClassBuilder;
     private final FormClassBuilder formClassBuilder;
@@ -48,7 +49,11 @@ public class SimpleGenerator {
         controllerClassBuilder = new ControllerClassBuilder();
     }
 
-    public void generateALl(Class entityClass) throws IOException, ClassNotFoundException {
+    public void setOverwrite(boolean overwrite) {
+        this.overwrite = overwrite;
+    }
+
+    public void generateALl(Class entityClass) throws Exception {
         String srcFolder = getSrcFolder(entityClass);
         String bizName = getBizName(entityClass);
         String parentPackageName = getParentPackage(entityClass);
@@ -93,11 +98,30 @@ public class SimpleGenerator {
         generate(srcFolder,parentPackageName + "." + controllerClassSuffix.toLowerCase(),controllerTypeSpec);
     }
 
-    protected void generate(String srcFolder,String packageName, TypeSpec typeSpec) throws IOException, ClassNotFoundException {
+    protected void generate(String srcFolder,String packageName, TypeSpec typeSpec) throws Exception {
+        preGenerateCheck(packageName, typeSpec.name);
         File file = new File(srcFolder);
         JavaFile javaFile = JavaFile.builder(packageName,typeSpec ).build();
         javaFile.writeTo(file);
         loadClassFromFile(file, packageName, typeSpec.name);
+    }
+
+    /**
+     * 生成前校验逻辑， 如果overwrite为false，则需要做如下校验：
+     * 判断判断Class是否存在，存在则抛出异常。
+     * @param packageName
+     * @param simpleName
+     * @return
+     */
+    private void preGenerateCheck(String packageName, String simpleName) throws Exception {
+        if(overwrite) return;
+        final String fullClassName = getFullClassName(packageName, simpleName);
+        try {
+            Class.forName(fullClassName);
+        } catch (ClassNotFoundException e) {
+            return;
+        }
+        throw new Exception("There is Class exist with the same name:"+fullClassName+ ". If you want to overwrite it please set overwrite to true");
     }
 
     protected String getSrcFolder(Class entityClazz) {

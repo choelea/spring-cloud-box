@@ -11,8 +11,6 @@
     <packaging>pom</packaging>
     <artifactId>samples</artifactId>
     <modules>
-        <module>system-service</module>
-        <module>jpa-demo</module>
-        <module>spring-box-code-generator-demo</module>
+        <module>spring-jpa-demo</module>
     </modules>
 </project>

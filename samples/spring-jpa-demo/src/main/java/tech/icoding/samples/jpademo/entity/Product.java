@@ -32,5 +32,6 @@ public class Product extends BaseEntity<Long> {
     @NotNull
     private Category category;
 
+    @ManyToMany
     private List<ProductTag> tags;
 }

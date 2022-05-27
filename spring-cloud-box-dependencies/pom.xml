@@ -57,11 +57,6 @@
         <dependencies>
             <dependency>
                 <groupId>tech.icoding</groupId>
-                <artifactId>spring-cloud-box-dynamic-datasource</artifactId>
-                <version>${scb.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>tech.icoding</groupId>
                 <artifactId>spring-cloud-box-lock</artifactId>
                 <version>${scb.version}</version>
             </dependency>

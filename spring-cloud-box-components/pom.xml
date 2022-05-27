@@ -20,7 +20,6 @@
 		<module>spring-cloud-box-mybatis</module>
 		<module>spring-cloud-box-security</module>
 		<module>spring-cloud-box-log</module>
-		<module>spring-cloud-box-dynamic-datasource</module>
 		<module>spring-cloud-box-iot-platform</module>
 		<module>secret-request-aop</module>
         <module>spring-cloud-box-oss</module>

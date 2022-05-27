@@ -9,19 +9,16 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 import tech.icoding.samples.jpademo.data.ProductData;
-import tech.icoding.samples.jpademo.entity.Category;
 import tech.icoding.samples.jpademo.entity.Product;
 import tech.icoding.samples.jpademo.form.ProductForm;
-import tech.icoding.samples.jpademo.service.CategoryService;
 import tech.icoding.samples.jpademo.service.ProductService;
 
 @Component
 public class ProductFacade {
   private ProductService productService;
-  private CategoryService categoryService;
-  public ProductFacade(ProductService productService, CategoryService categoryService) {
+
+  public ProductFacade(ProductService productService) {
     this.productService = productService;
-    this.categoryService = categoryService;
   }
 
   /**
@@ -78,8 +75,6 @@ public class ProductFacade {
    */
   private void convert(ProductForm productForm, Product product) {
     BeanUtils.copyProperties(productForm, product);
-    final Category category = categoryService.find(productForm.getCategory());
-    product.setCategory(category);
     // TODO Override logic. (Copy properties is not the best solution, but an convenient one, for special logic, add below here )
   }
 

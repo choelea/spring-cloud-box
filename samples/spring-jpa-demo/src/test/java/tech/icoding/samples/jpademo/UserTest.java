@@ -2,6 +2,7 @@ package tech.icoding.samples.jpademo;
 
 import com.alibaba.fastjson.JSON;
 import org.jeasy.random.EasyRandom;
+import org.jeasy.random.EasyRandomParameters;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
@@ -33,7 +34,8 @@ public class UserTest extends AbstractMvcTest{
     @Test
     public void curd() throws Exception
     {
-        EasyRandom easyRandom = new EasyRandom();
+        EasyRandomParameters easyRandomParameters = new EasyRandomParameters();
+        EasyRandom easyRandom = new EasyRandom(easyRandomParameters.stringLengthRange(3,10));
 
         // 新增
         UserForm userForm = easyRandom.nextObject(UserForm.class);

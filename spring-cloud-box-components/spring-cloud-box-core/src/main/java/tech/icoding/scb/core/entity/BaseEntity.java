@@ -34,7 +34,6 @@ public abstract class BaseEntity<ID extends Serializable> implements Serializabl
      * "版本"属性名称
      */
     public static final String VERSION_PROPERTY_NAME = "version";
-    private static final long serialVersionUID = 4714864631962932481L;
 
     /**
      * 获取主键

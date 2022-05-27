@@ -26,11 +26,23 @@ public class DataClassBuilder extends AbstractClassBuilder{
                 .addModifiers(Modifier.PUBLIC)
                 .addAnnotation(Data.class).superclass(parameterizedTypeName);
 
-        final Field[] declaredFields = sourceClass.getDeclaredFields();
 
+        builder.addField(generateSerialVersionId());
+
+        final Field[] declaredFields = sourceClass.getDeclaredFields();
         for (int i = 0; i < declaredFields.length; i++) {
-            builder.addField(declaredFields[i].getGenericType(),declaredFields[i].getName(), Modifier.PRIVATE);
+            if(!isFieldExcluded(declaredFields[i].getName())){
+                builder.addField(declaredFields[i].getGenericType(),declaredFields[i].getName(), Modifier.PRIVATE);
+            }
+
         }
         return builder.build();
+    }
+
+    protected boolean isFieldExcluded(String fieldName){
+        if(SERIAL_VERSION_UID.equals(fieldName)){
+            return true;
+        }
+        return false;
     }
 }

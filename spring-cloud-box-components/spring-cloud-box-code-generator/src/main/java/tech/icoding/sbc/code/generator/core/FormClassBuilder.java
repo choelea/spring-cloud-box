@@ -1,5 +1,6 @@
 package tech.icoding.sbc.code.generator.core;
 
+
 import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.TypeSpec;
 import lombok.Data;
@@ -11,8 +12,6 @@ import java.io.Serializable;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 用于生成对应的*DataClass
@@ -23,16 +22,21 @@ import java.util.List;
 public class FormClassBuilder extends AbstractClassBuilder{
 
     public TypeSpec buildTypeSpec(Class entityClass, String targetClassName) {
-         final TypeSpec.Builder builder = TypeSpec.classBuilder(targetClassName)
+        final TypeSpec.Builder builder = TypeSpec.classBuilder(targetClassName)
                 .addModifiers(Modifier.PUBLIC)
-                 .addSuperinterface(Serializable.class)
+                .addSuperinterface(Serializable.class)
                 .addAnnotation(Data.class);
+
+
+
+        builder.addField(generateSerialVersionId());
 
         final Field[] declaredFields = entityClass.getDeclaredFields();
 
         for (int i = 0; i < declaredFields.length; i++) {
             Field field = declaredFields[i];
-            if(!IDENTIFIER_NAME.equals(field.getName())){ // ignore id
+
+            if(!isFieldExcluded(field.getName())){ // ignore id
 
                 final Annotation[] annotations = field.getAnnotations();
                 final Type genericType = getFieldType(field);
@@ -67,5 +71,17 @@ public class FormClassBuilder extends AbstractClassBuilder{
         }
         return field.getGenericType();
 
+    }
+
+    /**
+     * 判断属性是否在排除的之外
+     * @param fieldName
+     * @return
+     */
+    protected boolean isFieldExcluded(String fieldName){
+        if(IDENTIFIER_NAME.equals(fieldName) || SERIAL_VERSION_UID.equals(fieldName)){
+            return true;
+        }
+        return false;
     }
 }

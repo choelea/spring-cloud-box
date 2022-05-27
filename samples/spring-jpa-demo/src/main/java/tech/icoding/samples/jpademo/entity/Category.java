@@ -13,6 +13,7 @@ import javax.persistence.*;
 @Data
 public class Category extends BaseEntity<Long> {
 
+    private static final long serialVersionUID = -643946276694734258L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
